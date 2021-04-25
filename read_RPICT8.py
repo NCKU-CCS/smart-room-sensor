@@ -3,7 +3,6 @@ from dataclasses import dataclass
 import time
 from datetime import datetime
 
-from dataclasses_json import dataclass_json
 from loguru import logger
 import serial
 
@@ -11,7 +10,6 @@ from save_data import upload_data
 from config import RPICT8_PORT, RPICT8_MAPPING
 
 
-@dataclass_json
 @dataclass
 class CTData:
     # pylint: disable=C0103
@@ -49,7 +47,7 @@ def read():
 def main():
     datas = read()
     for index, data in enumerate(datas):
-        upload_data(data.to_dict(), sensor=f"CT_{RPICT8_MAPPING[index]}")
+        upload_data(data.__dict__, sensor=f"CT_{RPICT8_MAPPING[index]}")
 
 
 if __name__ == "__main__":

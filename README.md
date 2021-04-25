@@ -6,9 +6,10 @@ Smart Room Sensors
     + DHT11, DHT22 Thermo Data
 + [Smart Meter](./meter.py)
     + Smart Meter Data
-+ [CT Sensor](./read_arduino.py)
++ [CT Sensor - Arduino](./read_arduino.py)
     + CT Sensor Data
-
++ [CT Sensor - RPICT8](./read_RPICT8.py)
+    + CT Sensor Data from RPICT8
 ## Getting Started
 
 ### Prerequisites
@@ -27,7 +28,7 @@ cp env.sample .env
 
 Installing Packages
 ```sh
-pip3 install requests, python-dotenv, dataclasses-json
+pip3 install requests python-dotenv
 ```
 
 #### meter
