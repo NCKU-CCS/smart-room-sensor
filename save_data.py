@@ -1,4 +1,5 @@
 import traceback
+import os
 
 import requests
 from loguru import logger
@@ -36,14 +37,22 @@ def send_request(request_func):
 
         except requests.exceptions.Timeout as error:
             logger.warning(f"UNAVAILABLE: Connection Timeout {error}")
+            reboot()
         except requests.exceptions.ConnectionError as error:
             logger.warning(f"UNAVAILABLE: Connection Error {error}")
+            reboot()
         except ConnectionRefusedError as error:
             logger.warning(f"UNAVAILABLE: Connection Refused Error {error}")
+            reboot()
         except requests.exceptions.MissingSchema:
             logger.warning(f"UNAVAILABLE: URL Schema Error {traceback.format_exc()}")
 
     return wrapper
+
+
+def reboot():
+    logger.error("REBOOT")
+    os.system("sudo /sbin/reboot")
 
 
 # pylint: disable=W0621
