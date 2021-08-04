@@ -40,7 +40,9 @@ def read():
                     logger.warning("[RPICT8] Timeout")
                     exit(1)
                 continue
-            datas = [CTData(current=float(current) / 240) for idx, current in enumerate(currents) if RPICT8_MAPPING[idx]]
+            datas = [
+                CTData(current=float(current) / 240) for idx, current in enumerate(currents) if RPICT8_MAPPING[idx]
+            ]
             return datas
 
 
