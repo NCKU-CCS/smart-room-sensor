@@ -144,3 +144,5 @@ python3 read_RPICT8.py
 ## Save Data
 
 [save_data.py](./save_data.py) include `upload_data` function to upload data to data center via HTTP POST request.
+
+Note: Uploader will REBOOT Pi when internet error.
