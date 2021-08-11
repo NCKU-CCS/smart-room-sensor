@@ -1,5 +1,6 @@
 import time
 from datetime import datetime
+from typing import Tuple, List
 
 from loguru import logger
 import minimalmodbus
@@ -9,7 +10,7 @@ from modbus import OBSERVE_REGS_MAP
 from config import MODBUS_PORT
 
 
-def get_float_data(com: minimalmodbus.Instrument, reg: str) -> float:
+def get_float_data(com: minimalmodbus.Instrument, reg: str) -> Tuple[bool, float]:
     """send get float data command
 
     Args:
@@ -17,24 +18,34 @@ def get_float_data(com: minimalmodbus.Instrument, reg: str) -> float:
         reg (str): register in hex
 
     Returns:
-        float: value
+        Tuple[bool, float]: success/failure and value
     """
-    while True:
-        try:
-            regs = com.read_float(int(reg, 0))
-            break
-        except Exception as err:
-            logger.debug(f"[Failed to Read Float] address: {reg}. Error: {err}")
-            time.sleep(1)
-    return regs
+    try:
+        regs = com.read_float(int(reg, 0))
+        return True, regs
+    except Exception as err:
+        logger.debug(f"[Failed to Read Float] address: {reg}. Error: {err}")
+        return False, 0
 
 
 def scan(com, map_table, loop, timebreak=1):
     # Re-try timeout set
     now_minute = datetime.now().minute
     while True:
+        # Check Re-try Timeout (one minute)
+        if datetime.now().minute != now_minute:
+            logger.warning("[Meter] Timeout")
+            exit(1)
         # GET Data
-        datas = [get_float_data(com, reg) for reg in map_table.keys()]
+        datas: List[float] = []
+        # datas = [get_float_data(com, reg) for reg in map_table.keys()]
+        for reg in map_table.keys():
+            success, value = get_float_data(com, reg)
+            if success:
+                datas.append(value)
+            else:
+                time.sleep(1)
+                continue
         map_data = dict()
         # Log ata
         logger.info(datetime.utcnow())
@@ -46,10 +57,6 @@ def scan(com, map_table, loop, timebreak=1):
         if not loop:
             return map_data
         time.sleep(timebreak)
-        if datetime.now().minute != now_minute:
-            # Re-try timeout (one minute)
-            logger.warning("[Meter] Timeout")
-            exit(1)
 
 
 def main():

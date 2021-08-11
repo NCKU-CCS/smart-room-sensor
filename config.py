@@ -20,7 +20,7 @@ CT_MAPPING = ["WWW", "VLDB_E", "VLDB_W", "LAB_E", "LAB_W", "KDD"]
 # RPICT8
 RPICT8_PORT = os.getenv("RPICT8_PORT", "/dev/ttyAMA0")
 RPICT8_MAPPING = ["602_N", "602_S"]
-RPICT8_MAPPING.extend([None] * (8 - len(RPICT8_MAPPING)))
+RPICT8_MAPPING.extend([""] * (8 - len(RPICT8_MAPPING)))
 
 # Upload
 SENSOR = os.getenv("SENSOR", "")
