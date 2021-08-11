@@ -16,7 +16,7 @@ class CTData:
     current: float = float()
     voltage: float = float()
     power: float = float()
-    total_current: float = float()
+    total_consumption: float = float()
     # pylint: enable=C0103
 
 

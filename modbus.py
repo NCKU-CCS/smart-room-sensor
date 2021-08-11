@@ -10,7 +10,7 @@ OBSERVE_REGS_MAPS = {
     "0x0006": {"name": "Total Effective Power", "unit": "W", "field_name": "power"},
     "0x0008": {"name": "Total Reactive Power", "unit": "VAR"},
     "0x000A": {"name": "Total Apparent Power", "unit": "VA"},
-    "0x000C": {"name": "Total Effective Current", "unit": "kWh", "field_name": "total_current"},
+    "0x000C": {"name": "Total Effective Current", "unit": "kWh", "field_name": "total_consumption"},
     "0x000E": {"name": "Total Reactive Current", "unit": "kVARh"},
     "0x0010": {"name": "Total Apparent Current", "unit": "kVAh"},
     "0x0012": {"name": "Average Power Factor", "unit": ""},
