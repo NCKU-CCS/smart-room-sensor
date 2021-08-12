@@ -45,7 +45,10 @@ def scan(com, map_table, loop, timebreak=1):
                 datas.append(value)
             else:
                 time.sleep(1)
-                continue
+                break
+        # Check data length
+        if len(datas) != len(map_table):
+            continue
         map_data = dict()
         # Log ata
         logger.info(datetime.utcnow())
