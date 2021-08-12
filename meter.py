@@ -32,23 +32,24 @@ def scan(com, map_table, loop, timebreak=1):
     # Re-try timeout set
     now_minute = datetime.now().minute
     while True:
-        # Check Re-try Timeout (one minute)
-        if datetime.now().minute != now_minute:
-            logger.warning("[Meter] Timeout")
-            exit(1)
         # GET Data
         datas: List[float] = []
         # datas = [get_float_data(com, reg) for reg in map_table.keys()]
         for reg in map_table.keys():
-            success, value = get_float_data(com, reg)
-            if success:
-                datas.append(value)
-            else:
-                time.sleep(1)
-                break
-        # Check data length
-        if len(datas) != len(map_table):
-            continue
+            while True:
+                # Check Re-try Timeout (one minute)
+                if datetime.now().minute != now_minute:
+                    logger.warning("[Meter] Timeout")
+                    exit(1)
+                
+                success, value = get_float_data(com, reg)
+                if success:
+                    datas.append(value)
+                    break
+                else:
+                    time.sleep(1)
+                    continue
+
         map_data = dict()
         # Log ata
         logger.info(datetime.utcnow())
@@ -63,7 +64,7 @@ def scan(com, map_table, loop, timebreak=1):
 
 
 def main():
-    instrument = minimalmodbus.Instrument(MODBUS_PORT, 1)
+    instrument = minimalmodbus.Instrument(MODBUS_PORT, 1, close_port_after_each_call=True)
     instrument.serial.baudrate = 9600
     # Loop Monitor
     # scan(instrument, OBSERVE_REGS_MAP, loop=True)
