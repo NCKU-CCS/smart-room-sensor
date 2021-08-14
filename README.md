@@ -144,12 +144,6 @@ ls /dev/tty*
 python3 read_RPICT8.py
 ```
 
-## Save Data
-
-[save_data.py](./save_data.py) include `upload_data` function to upload data to data center via HTTP POST request.
-
-Note: `save_data.py` will REBOOT Pi when internet error
-
 ## CT Sensor - MCP3008
 
 RPi read meter data from CT sensor via ADC (MCP3008).
@@ -162,7 +156,7 @@ pip3 install adafruit-mcp3008
 
 ### env example
 Check SPI Device
-```sh=
+```sh
 ls -l /dev/spidev*
 ```
 
@@ -170,3 +164,13 @@ ls -l /dev/spidev*
 ```sh
 python3 read_mcp3008.py
 ```
+
+
+## Save Data
+
+[save_data.py](./save_data.py)
+
++ `upload_data` function to upload data to data center via HTTP POST request.
+    Note: `upload_data` will REBOOT Pi when internet error
+
++ `save_db` function directly save data to a database
