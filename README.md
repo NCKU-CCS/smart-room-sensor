@@ -153,3 +153,20 @@ Note: `save_data.py` will REBOOT Pi when internet error
 ## CT Sensor - MCP3008
 
 RPi read meter data from CT sensor via ADC (MCP3008).
+
+### Packages
+```sh
+pip3 install smbus2
+pip3 install adafruit-mcp3008
+```
+
+### env example
+Check SPI Device
+```sh=
+ls -l /dev/spidev*
+```
+
+### Running
+```sh
+python3 read_mcp3008.py
+```
