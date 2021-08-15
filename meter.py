@@ -62,8 +62,14 @@ def scan(com, map_table, loop, timebreak=1):
 
 
 def main():
-    instrument = minimalmodbus.Instrument(MODBUS_PORT, 1, close_port_after_each_call=True)
-    instrument.serial.baudrate = 9600
+    while True:
+        try:
+            instrument = minimalmodbus.Instrument(MODBUS_PORT, 1, close_port_after_each_call=True)
+            instrument.serial.baudrate = 9600
+            break
+        except Exception as err:
+            logger.debug(f"[Failed to Create Connection] Error: {err}")
+            continue
     # Loop Monitor
     # scan(instrument, OBSERVE_REGS_MAP, loop=True)
     data = scan(instrument, OBSERVE_REGS_MAP, loop=False)
