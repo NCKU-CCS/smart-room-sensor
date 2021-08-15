@@ -34,14 +34,12 @@ def scan(com, map_table, loop, timebreak=1):
     while True:
         # GET Data
         datas: List[float] = []
-        # datas = [get_float_data(com, reg) for reg in map_table.keys()]
         for reg in map_table.keys():
             while True:
                 # Check Re-try Timeout (one minute)
                 if datetime.now().minute != now_minute:
                     logger.warning("[Meter] Timeout")
                     exit(1)
-                
                 success, value = get_float_data(com, reg)
                 if success:
                     datas.append(value)

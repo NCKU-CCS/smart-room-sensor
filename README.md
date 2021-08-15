@@ -10,6 +10,9 @@ Smart Room Sensors
     + CT Sensor Data
 + [CT Sensor - RPICT8](./read_RPICT8.py)
     + CT Sensor Data from RPICT8
++ [CT Sensor - MCP3008]()
+    + DEVELOPING
+    + Read CT Sensor Data via MCP3008
 ## Getting Started
 
 ### Prerequisites
@@ -112,7 +115,7 @@ python3 read_arduino.py
 ```
 
 ## [CT Sensor - RPICT8](./read_RPICT8.py)
-Read data from CT sensor from [RPICT8](http://lechacal.com/wiki/index.php/RPICT8) via serial signal.
+Read data from CT sensor via [RPICT8](http://lechacal.com/wiki/index.php/RPICT8) with serial signal.
 
 Docs: [Notion](https://www.notion.so/netdb/61b89b8fcd374ef1996bd712f8778a6e)
 
@@ -141,8 +144,31 @@ ls /dev/tty*
 python3 read_RPICT8.py
 ```
 
+## CT Sensor - MCP3008
+
+RPi read meter data from CT sensor via ADC (MCP3008) and save to CSV file.
+
+### Packages
+```sh
+pip3 install smbus2
+pip3 install adafruit-mcp3008
+```
+
+### env example
+Check SPI Device
+```sh
+ls -l /dev/spidev*
+```
+
+### Running
+```sh
+python3 read_mcp3008.py
+```
+
+
 ## Save Data
 
-[save_data.py](./save_data.py) include `upload_data` function to upload data to data center via HTTP POST request.
+[save_data.py](./save_data.py)
 
-Note: `save_data.py` will REBOOT Pi when internet error
++ `upload_data` : upload data to data center via HTTP POST request.
+    Note: `upload_data` will REBOOT Pi when internet error
