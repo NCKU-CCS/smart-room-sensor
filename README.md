@@ -146,7 +146,7 @@ python3 read_RPICT8.py
 
 ## CT Sensor - MCP3008
 
-RPi read meter data from CT sensor via ADC (MCP3008).
+RPi read meter data from CT sensor via ADC (MCP3008) and save to CSV file.
 
 ### Packages
 ```sh
@@ -170,7 +170,5 @@ python3 read_mcp3008.py
 
 [save_data.py](./save_data.py)
 
-+ `upload_data` function to upload data to data center via HTTP POST request.
++ `upload_data` : upload data to data center via HTTP POST request.
     Note: `upload_data` will REBOOT Pi when internet error
-
-+ `save_db` function directly save data to a database

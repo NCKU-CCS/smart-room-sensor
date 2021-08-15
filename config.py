@@ -26,6 +26,7 @@ RPICT8_MAPPING.extend([""] * (8 - len(RPICT8_MAPPING)))
 SPI_PORT = 0
 SPI_DEVICE = 0
 SIGNAL_CHANNEL = 0
+CSVFILE = "CSVFILE"
 
 # Upload
 SENSOR = os.getenv("SENSOR", "")
