@@ -7,7 +7,7 @@ import csv
 from loguru import logger
 import serial
 
-from config import ARDUINO_PORT
+from config import ARDUINO_PORT, CSVFILE
 
 
 @dataclass
