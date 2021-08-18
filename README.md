@@ -14,6 +14,9 @@ Smart Room Sensors
     + Save to Remote database
 + [CT Sensor - RPICT8](./read_RPICT8.py)
     + CT Sensor Data from RPICT8
+
+A detailed description of the CT-Arduino is in the [Arduino/README.md](./Arduino/README.md) file.
+
 ## Getting Started
 
 ### Prerequisites
