@@ -6,13 +6,14 @@ Smart Room Sensors
     + DHT11, DHT22 Thermo Data
 + [Smart Meter](./meter.py)
     + Smart Meter Data
-+ [CT Sensor - Arduino](./read_arduino.py)
++ [1 CT Sensor - Arduino - Save Local](./read_arduino_one.py)
+    + Read one CT Sensor Data
+    + Save to local CSV file
++ [6 CT Sensor - Arduino - Save DB](./read_arduino.py)
     + CT Sensor Data
+    + Save to Remote database
 + [CT Sensor - RPICT8](./read_RPICT8.py)
     + CT Sensor Data from RPICT8
-+ [CT Sensor - MCP3008]()
-    + DEVELOPING
-    + Read CT Sensor Data via MCP3008
 ## Getting Started
 
 ### Prerequisites
@@ -86,7 +87,35 @@ DHT_TYPE=AM2302
 python3 thermo_sensor.py
 ```
 
-## [CT Sensor - Arduino](./read_arduino.py)
+
+## [1 CT Sensor - Arduino - Save Local](./read_arduino_one.py)
+
+RPi read meter data from CT sensor via Arduino and save to local CSV file.
+
+### Packages
+```sh
+pip3 install pyserial
+```
+
+### env example
+Set Arduino USB Port.
+
+```sh
+ARDUINO_PORT=/dev/ttyUSB0
+```
+
+How to know PORT name from Pi:
+```sh
+ls /dev/tty*
+```
+
+### Running
+```sh
+python3 read_arduino_one.py
+```
+
+
+## [6 CT Sensor - Arduino - Save DB](./read_arduino.py)
 Read data from CT sensor from Arduino via serial signal.
 
 *CT Sensor* --Aanlog Signal-> *Arduino* --Serial Signal--> *Raspberry pi* --HTTP-> *Data Center*
@@ -143,28 +172,6 @@ ls /dev/tty*
 ```sh
 python3 read_RPICT8.py
 ```
-
-## CT Sensor - MCP3008
-
-RPi read meter data from CT sensor via ADC (MCP3008) and save to CSV file.
-
-### Packages
-```sh
-pip3 install smbus2
-pip3 install adafruit-mcp3008
-```
-
-### env example
-Check SPI Device
-```sh
-ls -l /dev/spidev*
-```
-
-### Running
-```sh
-python3 read_mcp3008.py
-```
-
 
 ## Save Data
 
