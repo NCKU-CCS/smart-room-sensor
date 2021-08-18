@@ -52,6 +52,7 @@ def main():
             data: CTData = read()
             if data:
                 save_csv(CSVFILE, data)
+            time.sleep(0.2)
         except Exception as err:
             logger.error(err)
 
