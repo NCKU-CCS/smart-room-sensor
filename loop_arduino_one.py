@@ -48,9 +48,12 @@ def save_csv(filename: str, data: CTData) -> None:
 
 def main():
     while True:
-        data: CTData = read()
-        if data:
-            save_csv(CSVFILE, data)
+        try:
+            data: CTData = read()
+            if data:
+                save_csv(CSVFILE, data)
+        except Exception as err:
+            logger.error(err)
 
 
 if __name__ == "__main__":
