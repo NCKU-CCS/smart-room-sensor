@@ -51,7 +51,6 @@ def main():
         data: CTData = read()
         if data:
             save_csv(CSVFILE, data)
-        time.sleep(1)
 
 
 if __name__ == "__main__":
