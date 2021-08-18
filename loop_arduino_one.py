@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from dataclasses import dataclass
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 import csv
 
 from loguru import logger
@@ -22,13 +22,13 @@ def read():
     ser = serial.Serial(ARDUINO_PORT, 9600, timeout=1)
     ser.flush()
     # Re-try timeout set
-    now_minute = datetime.now().minute
+    time_start = datetime.utcnow()
     while True:
         if ser.in_waiting > 0:
             current = float(ser.readline().decode("utf-8").rstrip())
             logger.info(f"[READ CURRENT] {current}")
-            if datetime.now().minute != now_minute:
-                # Re-try timeout (one minute)
+            if datetime.utcnow() - time_start >= timedelta(seconds=10):
+                # Re-try timeout (10 seconds)
                 logger.warning("[Meter] Timeout")
                 return None
             return CTData(datetime.utcnow().isoformat(), current)
