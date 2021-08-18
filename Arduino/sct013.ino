@@ -15,5 +15,6 @@ void loop() {
     double Irms = emon1.calcIrms(1480);
     // Apparent power
     Serial.println(Irms);
-    delay(60000);
+    // delay(60000);
+    delay(10000);
 }
