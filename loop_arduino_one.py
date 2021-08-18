@@ -30,7 +30,7 @@ def read():
             if datetime.now().minute != now_minute:
                 # Re-try timeout (one minute)
                 logger.warning("[Meter] Timeout")
-                exit(1)
+                return None
             return CTData(datetime.utcnow().isoformat(), current)
 
 
@@ -49,8 +49,9 @@ def save_csv(filename: str, data: CTData) -> None:
 def main():
     while True:
         data: CTData = read()
-        save_csv(CSVFILE, data)
-        time.sleep(10)
+        if data:
+            save_csv(CSVFILE, data)
+        time.sleep(1)
 
 
 if __name__ == "__main__":

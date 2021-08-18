@@ -6,7 +6,7 @@ PORT=/dev/ttyACM0
 .PHONY: all clean version init
 
 install:
-	sudo sh -c 'curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR=/usr/bin sh'
+	curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sudo BINDIR=/usr/bin sh
 
 board-list:
 	arduino-cli board list

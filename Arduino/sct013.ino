@@ -16,5 +16,5 @@ void loop() {
     // Apparent power
     Serial.println(Irms);
     // delay(60000);
-    delay(10000);
+    delay(1000);
 }
