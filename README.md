@@ -90,17 +90,21 @@ DHT_TYPE=AM2302
 python3 thermo_sensor.py
 ```
 
+## CT Sensor
 
-## [1 CT Sensor - Arduino - Save Local](./read_arduino_one.py)
+由於 SCT013-100 是透過類比訊號回傳電流資訊(細節見[Arduino Readme](./Arduino/README.md))，樹莓派無法直接讀取類比訊號，因此需透過 ADC (Analog-to-digital converter) 將類比訊號數位化。
+以下有多種收集資料的方式。
+
+### [1 CT Sensor - Arduino - Save Local](./read_arduino_one.py)
 
 RPi read meter data from CT sensor via Arduino and save to local CSV file.
 
-### Packages
+#### Packages
 ```sh
 pip3 install pyserial
 ```
 
-### env example
+#### env example
 Set Arduino USB Port.
 
 ```sh
@@ -112,23 +116,23 @@ How to know PORT name from Pi:
 ls /dev/tty*
 ```
 
-### Running
+#### Running
 ```sh
 python3 read_arduino_one.py
 ```
 
 
-## [6 CT Sensor - Arduino - Save DB](./read_arduino.py)
+### [6 CT Sensor - Arduino - Save DB](./read_arduino.py)
 Read data from CT sensor from Arduino via serial signal.
 
 *CT Sensor* --Aanlog Signal-> *Arduino* --Serial Signal--> *Raspberry pi* --HTTP-> *Data Center*
 
-### Packages
+#### Packages
 ```sh
 pip3 install pyserial
 ```
 
-### env example
+#### env example
 Set Arduino USB Port.
 
 ```sh
@@ -141,24 +145,24 @@ ls /dev/tty*
 ```
 
 
-### Running
+#### Running
 ```sh
 python3 read_arduino.py
 ```
 
-## [CT Sensor - RPICT8](./read_RPICT8.py)
+### [CT Sensor - RPICT8](./read_RPICT8.py)
 Read data from CT sensor via [RPICT8](http://lechacal.com/wiki/index.php/RPICT8) with serial signal.
 
 Docs: [Notion](https://www.notion.so/netdb/61b89b8fcd374ef1996bd712f8778a6e)
 
 *CT Sensor* --Aanlog Signal-> *RPICT8* --Serial Signal--> *Raspberry pi* --HTTP-> *Data Center*
 
-### Packages
+#### Packages
 ```sh
 pip3 install pyserial
 ```
 
-### env example
+#### env example
 Set RPICT8_PORT USB Port.
 
 ```sh
@@ -171,7 +175,7 @@ ls /dev/tty*
 ```
 
 
-### Running
+#### Running
 ```sh
 python3 read_RPICT8.py
 ```
