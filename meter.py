@@ -9,6 +9,7 @@ from save_data import upload_data
 from modbus import OBSERVE_REGS_MAP
 from config import MODBUS_PORT
 
+EXECUTION_MINUTE = ''
 
 def get_float_data(com: minimalmodbus.Instrument, reg: str) -> Tuple[bool, float]:
     """send get float data command
@@ -27,19 +28,19 @@ def get_float_data(com: minimalmodbus.Instrument, reg: str) -> Tuple[bool, float
         logger.debug(f"[Failed to Read Float] address: {reg}. Error: {err}")
         return False, 0
 
+def check_retry_timeout():
+    # Check Re-try Timeout (one minute)
+    if datetime.now().minute != EXECUTION_MINUTE:
+        logger.warning("[Meter] Timeout")
+        exit(1)
 
 def scan(com, map_table, loop, timebreak=1):
-    # Re-try timeout set
-    now_minute = datetime.now().minute
     while True:
         # GET Data
         datas: List[float] = []
         for reg in map_table.keys():
             while True:
-                # Check Re-try Timeout (one minute)
-                if datetime.now().minute != now_minute:
-                    logger.warning("[Meter] Timeout")
-                    exit(1)
+                check_retry_timeout()
                 success, value = get_float_data(com, reg)
                 if success:
                     datas.append(value)
@@ -62,13 +63,18 @@ def scan(com, map_table, loop, timebreak=1):
 
 
 def main():
+    # Re-try timeout set
+    global EXECUTION_MINUTE
+    EXECUTION_MINUTE = datetime.now().minute
     while True:
+        check_retry_timeout()
         try:
             instrument = minimalmodbus.Instrument(MODBUS_PORT, 1, close_port_after_each_call=True)
             instrument.serial.baudrate = 9600
             break
         except Exception as err:
             logger.debug(f"[Failed to Create Connection] Error: {err}")
+            time.sleep(1)
             continue
     # Loop Monitor
     # scan(instrument, OBSERVE_REGS_MAP, loop=True)
