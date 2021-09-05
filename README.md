@@ -6,13 +6,17 @@ Smart Room Sensors
     + DHT11, DHT22 Thermo Data
 + [Smart Meter](./meter.py)
     + Smart Meter Data
-+ [CT Sensor - Arduino](./read_arduino.py)
++ [1 CT Sensor - Arduino - Save Local](./read_arduino_one.py)
+    + Read one CT Sensor Data
+    + Save to local CSV file
++ [6 CT Sensor - Arduino - Save DB](./read_arduino.py)
     + CT Sensor Data
+    + Save to Remote database
 + [CT Sensor - RPICT8](./read_RPICT8.py)
     + CT Sensor Data from RPICT8
-+ [CT Sensor - MCP3008]()
-    + DEVELOPING
-    + Read CT Sensor Data via MCP3008
+
+A detailed description of the CT-Arduino is in the [Arduino/README.md](./Arduino/README.md) file.
+
 ## Getting Started
 
 ### Prerequisites
@@ -86,17 +90,49 @@ DHT_TYPE=AM2302
 python3 thermo_sensor.py
 ```
 
-## [CT Sensor - Arduino](./read_arduino.py)
-Read data from CT sensor from Arduino via serial signal.
+## CT Sensor
 
-*CT Sensor* --Aanlog Signal-> *Arduino* --Serial Signal--> *Raspberry pi* --HTTP-> *Data Center*
+由於 SCT013-100 是透過類比訊號回傳電流資訊(細節見[Arduino Readme](./Arduino/README.md))，樹莓派無法直接讀取類比訊號，因此需透過 ADC (Analog-to-digital converter) 將類比訊號數位化。
+以下有多種收集資料的方式。
 
-### Packages
+### [1 CT Sensor - Arduino - Save Local](./read_arduino_one.py)
+
+RPi read meter data from CT sensor via Arduino and save to local CSV file.
+
+#### Packages
 ```sh
 pip3 install pyserial
 ```
 
-### env example
+#### env example
+Set Arduino USB Port.
+
+```sh
+ARDUINO_PORT=/dev/ttyUSB0
+```
+
+How to know PORT name from Pi:
+```sh
+ls /dev/tty*
+```
+
+#### Running
+```sh
+python3 read_arduino_one.py
+```
+
+
+### [6 CT Sensor - Arduino - Save DB](./read_arduino.py)
+Read data from CT sensor from Arduino via serial signal.
+
+*CT Sensor* --Aanlog Signal-> *Arduino* --Serial Signal--> *Raspberry pi* --HTTP-> *Data Center*
+
+#### Packages
+```sh
+pip3 install pyserial
+```
+
+#### env example
 Set Arduino USB Port.
 
 ```sh
@@ -109,24 +145,24 @@ ls /dev/tty*
 ```
 
 
-### Running
+#### Running
 ```sh
 python3 read_arduino.py
 ```
 
-## [CT Sensor - RPICT8](./read_RPICT8.py)
+### [CT Sensor - RPICT8](./read_RPICT8.py)
 Read data from CT sensor via [RPICT8](http://lechacal.com/wiki/index.php/RPICT8) with serial signal.
 
 Docs: [Notion](https://www.notion.so/netdb/61b89b8fcd374ef1996bd712f8778a6e)
 
 *CT Sensor* --Aanlog Signal-> *RPICT8* --Serial Signal--> *Raspberry pi* --HTTP-> *Data Center*
 
-### Packages
+#### Packages
 ```sh
 pip3 install pyserial
 ```
 
-### env example
+#### env example
 Set RPICT8_PORT USB Port.
 
 ```sh
@@ -139,32 +175,10 @@ ls /dev/tty*
 ```
 
 
-### Running
+#### Running
 ```sh
 python3 read_RPICT8.py
 ```
-
-## CT Sensor - MCP3008
-
-RPi read meter data from CT sensor via ADC (MCP3008) and save to CSV file.
-
-### Packages
-```sh
-pip3 install smbus2
-pip3 install adafruit-mcp3008
-```
-
-### env example
-Check SPI Device
-```sh
-ls -l /dev/spidev*
-```
-
-### Running
-```sh
-python3 read_mcp3008.py
-```
-
 
 ## Save Data
 

@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-import csv
 from dataclasses import dataclass
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
+import csv
 
 from loguru import logger
-import Adafruit_GPIO.SPI as SPI
-import Adafruit_MCP3008
+import serial
 
-from config import SPI_PORT, SPI_DEVICE, SIGNAL_CHANNEL, CSVFILE
+from config import ARDUINO_PORT, CSVFILE
 
 
 @dataclass
@@ -19,21 +18,20 @@ class CTData:
     # pylint: enable=C0103
 
 
-def read() -> CTData:
-    mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
+def read():
+    ser = serial.Serial(ARDUINO_PORT, 9600, timeout=1)
+    ser.flush()
     # Re-try timeout set
-    now_minute = datetime.now().minute
+    time_start = datetime.utcnow()
     while True:
-        if datetime.now().minute != now_minute:
-            # Re-try timeout (one minute)
-            logger.warning("[MCP3008] Timeout")
-            exit(1)
-        try:
-            current = mcp.read_adc(SIGNAL_CHANNEL)
-            logger.debug(current)
+        if ser.in_waiting > 0:
+            current = float(ser.readline().decode("utf-8").rstrip())
+            logger.info(f"[READ CURRENT] {current}")
+            if datetime.utcnow() - time_start >= timedelta(seconds=10):
+                # Re-try timeout (10 seconds)
+                logger.warning("[Meter] Timeout")
+                return None
             return CTData(datetime.utcnow().isoformat(), current)
-        except Exception as err:
-            logger.error(err)
 
 
 def save_csv(filename: str, data: CTData) -> None:
@@ -48,9 +46,15 @@ def save_csv(filename: str, data: CTData) -> None:
         logger.error(f"[CSV Data] {data}")
 
 
-def main() -> None:
-    data: CTData = read()
-    save_csv(CSVFILE, data)
+def main():
+    while True:
+        try:
+            data: CTData = read()
+            if data:
+                save_csv(CSVFILE, data)
+            time.sleep(0.2)
+        except Exception as err:
+            logger.error(err)
 
 
 if __name__ == "__main__":
