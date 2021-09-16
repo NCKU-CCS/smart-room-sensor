@@ -53,7 +53,7 @@ def scan(com, map_table, loop, timebreak=1):
         # Log ata
         logger.info(datetime.utcnow())
         for data, regs in zip(datas, map_table.values()):
-            logger.info(f"{regs['name']}:\t {round(data, 2)} {regs['unit'] if 'unit' in regs else ''}")
+            logger.info(f"{regs['name']}:\t {round(data, 3)} {regs['unit'] if 'unit' in regs else ''}")
             map_data[regs["field_name"]] = round(data, 3)
         logger.info("-" * 40)
         # Return Data
