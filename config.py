@@ -32,8 +32,8 @@ CSVFILE = "CSVFILE"
 SENSOR = os.getenv("SENSOR", "")
 ENDPOINT = os.getenv("ENDPOINT", "http://10.8.2.101:5000/")
 TOKEN = os.getenv("TOKEN", "")
-RETRY_TIME = os.getenv("RETRY_TIME", 4)
-TIMEOUT = os.getenv("TIMEOUT", 10)
+RETRY_TIME = int(os.getenv("RETRY_TIME", 11))
+TIMEOUT = int(os.getenv("TIMEOUT", 5))
 
 # Log only
 GATEWAY = os.getenv("GATEWAY", "")
